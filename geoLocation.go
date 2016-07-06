@@ -6,22 +6,21 @@ import (
 	"log"
 )
 
-/**
- * <p>Represents a point on the surface of a sphere. (The Earth is almost
- * spherical.)</p>
- *
- * <p>To create an instance, call one of the static methods fromDegrees() or
- * fromRadians().</p>
- *
- * <p>This is a PHP port of Java code that was originally published at
- * <a href="http://JanMatuschek.de/LatitudeLongitudeBoundingCoordinates#Java">
- * http://JanMatuschek.de/LatitudeLongitudeBoundingCoordinates#Java</a>.</p>
- * 
- * Many thanks to the original author: Jan Philip Matuschek
- *
- * @author Degendra Sivakoti
- * @version June 24 2016
- */
+
+// <p>Represents a point on the surface of a sphere. (The Earth is almost
+// spherical.)</p>
+//
+// <p>To create an instance, call one of the static methods fromDegrees() or
+// fromRadians().</p>
+//
+// <p>This is a PHP port of Java code that was originally published at
+// <a href="http://JanMatuschek.de/LatitudeLongitudeBoundingCoordinates#Java">
+// http://JanMatuschek.de/LatitudeLongitudeBoundingCoordinates#Java</a>.</p>
+//
+// Many thanks to the original author: Jan Philip Matuschek
+//
+// @author Degendra Sivakoti
+// @version June 24 2016
 
 const (
 	MIN_LAT = -1.5707963267948966  // -PI/2
@@ -47,10 +46,9 @@ type GeoLocation struct {
 
 }
 
-/**
-	 * @param latitude the latitude, in degrees.
-	 * @param longitude the longitude, in degrees.
-	 */
+
+// @param latitude the latitude, in degrees.
+// @param longitude the longitude, in degrees.
 func fromDegrees(latitude, longitude float64) GeoLocation {
 	gl := GeoLocation {
 		RadLat: degToRad(latitude),
@@ -63,10 +61,8 @@ func fromDegrees(latitude, longitude float64) GeoLocation {
 	return gl
 }
 
-/**
-	 * @param latitude the latitude, in radians.
-	 * @param longitude the longitude, in radians.
-	 */
+// @param latitude the latitude, in radians.
+// @param longitude the longitude, in radians.
 func fromRadians(latitude, longitude float64) GeoLocation {
 	gl := GeoLocation {
 		RadLat: latitude,
@@ -85,30 +81,22 @@ func (gl *GeoLocation) checkBounds() {
 	}
 }
 
-/**
- * @return the latitude, in degrees.
- */
+// @return the latitude, in degrees.
 func (gl *GeoLocation) getLatitudeInDegrees() float64 {
 	return gl.DegLat;
 }
 
-/**
- * @return the longitude, in degrees.
- */
+// @return the longitude, in degrees.
 func (gl *GeoLocation) getLongitudeInDegrees() float64{
 	return gl.DegLon;
 }
 
-/**
- * @return the latitude, in radians.
- */
+// @return the latitude, in radians.
 func (gl *GeoLocation) getLatitudeInRadians() float64{
 	return gl.RadLat;
 }
 
-/**
- * @return the longitude, in radians.
- */
+// @return the longitude, in radians.
 func (gl *GeoLocation) getLongitudeInRadians() float64{
 	return gl.RadLon;
 }
@@ -117,53 +105,49 @@ func (gl *GeoLocation) String() string {
 	return fmt.Sprintf("( %f \u00B0, %f \u00B0) = (%f rad, %f rad)", gl.DegLat, gl.DegLon, gl.RadLat, gl.RadLon)
 }
 
-/**
- * Computes the great circle distance between this GeoLocation instance
- * and the location argument.
- * @param radius the radius of the sphere, e.g. the average radius for a
- * spherical approximation of the figure of the Earth is approximately
- * 6371.01 kilometers.
- * @return the distance, measured in the same unit as the radius
- * argument.
- */
+// Computes the great circle distance between this GeoLocation instance
+// and the location argument.
+// @param radius the radius of the sphere, e.g. the average radius for a
+// spherical approximation of the figure of the Earth is approximately
+// 6371.01 kilometers.
+// @return the distance, measured in the same unit as the radius
+// argument.
 func (gl *GeoLocation) distanceTo(location GeoLocation, radius float64) float64 {
 	return math.Acos(math.Sin(gl.RadLat) * math.Sin(location.RadLat) +
 	math.Cos(gl.RadLat) * math.Cos(location.RadLat) *
 	math.Cos(gl.RadLon - location.RadLon)) * radius;
 }
 
-/**
- * <p>Computes the bounding coordinates of all points on the surface
- * of a sphere that have a great circle distance to the point represented
- * by this GeoLocation instance that is less or equal to the distance
- * argument.</p>
- * <p>For more information about the formulae used in this method visit
- * <a href="http://JanMatuschek.de/LatitudeLongitudeBoundingCoordinates">
- * http://JanMatuschek.de/LatitudeLongitudeBoundingCoordinates</a>.</p>
- * @param distance the distance from the point represented by this
- * GeoLocation instance. Must me measured in the same unit as the radius
- * argument.
- * @param radius the radius of the sphere, e.g. the average radius for a
- * spherical approximation of the figure of the Earth is approximately
- * 6371.01 kilometers.
- * @return an array of two GeoLocation objects such that:<ul>
- * <li>The latitude of any point within the specified distance is greater
- * or equal to the latitude of the first array element and smaller or
- * equal to the latitude of the second array element.</li>
- * <li>If the longitude of the first array element is smaller or equal to
- * the longitude of the second element, then
- * the longitude of any point within the specified distance is greater
- * or equal to the longitude of the first array element and smaller or
- * equal to the longitude of the second array element.</li>
- * <li>If the longitude of the first array element is greater than the
- * longitude of the second element (this is the case if the 180th
- * meridian is within the distance), then
- * the longitude of any point within the specified distance is greater
- * or equal to the longitude of the first array element
- * <strong>or</strong> smaller or equal to the longitude of the second
- * array element.</li>
- * </ul>
- */
+// <p>Computes the bounding coordinates of all points on the surface
+// of a sphere that have a great circle distance to the point represented
+// by this GeoLocation instance that is less or equal to the distance
+// argument.</p>
+// <p>For more information about the formulae used in this method visit
+// <a href="http://JanMatuschek.de/LatitudeLongitudeBoundingCoordinates">
+// http://JanMatuschek.de/LatitudeLongitudeBoundingCoordinates</a>.</p>
+// @param distance the distance from the point represented by this
+// GeoLocation instance. Must me measured in the same unit as the radius
+// argument.
+// @param radius the radius of the sphere, e.g. the average radius for a
+// spherical approximation of the figure of the Earth is approximately
+// 6371.01 kilometers.
+// @return an array of two GeoLocation objects such that:<ul>
+// <li>The latitude of any point within the specified distance is greater
+// or equal to the latitude of the first array element and smaller or
+// equal to the latitude of the second array element.</li>
+// <li>If the longitude of the first array element is smaller or equal to
+// the longitude of the second element, then
+// the longitude of any point within the specified distance is greater
+// or equal to the longitude of the first array element and smaller or
+// equal to the longitude of the second array element.</li>
+// <li>If the longitude of the first array element is greater than the
+// longitude of the second element (this is the case if the 180th
+// meridian is within the distance), then
+// the longitude of any point within the specified distance is greater
+// or equal to the longitude of the first array element
+// <strong>or</strong> smaller or equal to the longitude of the second
+// array element.</li>
+// </ul>
 func (gl *GeoLocation) boundingCoordinates(distance, radius float64) []GeoLocation {
 
 	if radius < 0 || distance < 0 {
