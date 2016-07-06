@@ -8,7 +8,7 @@ import (
 
 // Represents a point on the surface of a sphere. (The Earth is almost
 // spherical.) To create an instance, call one of the static methods fromDegrees() or
-// fromRadians(). This is a PHP port of Java code that was originally published at
+// fromRadians(). This is a golang port of Java code that was originally published at
 // http://JanMatuschek.de/LatitudeLongitudeBoundingCoordinates#Java
 //
 // Many thanks to the original author: Jan Philip Matuschek
